@@ -51,8 +51,7 @@ namespace Com.Everyday.Service.Pos.Lib.ViewModels.SalesDoc
             {
                 yield return new ValidationResult("salesDetail is required", new List<string> { "salesDetail" });
             }
-
-            if (salesDetail.paymentType == null)
+            if (string.IsNullOrWhiteSpace(salesDetail.paymentType))
             {
                 yield return new ValidationResult("paymentType is required", new List<string> { "paymentType" });
             }
