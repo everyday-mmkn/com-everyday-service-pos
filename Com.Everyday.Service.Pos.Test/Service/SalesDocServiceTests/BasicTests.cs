@@ -109,6 +109,15 @@ namespace Com.Everyday.Service.Pos.Test.Service.SalesDocServiceTests
         }
 
         [Fact]
+        public async void Should_Success_Get_Data_By_Code()
+        {
+            var service = new SalesDocService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
+            var data = await _dataUtil(service).GetTestData();
+            var Response = service.ReadModelByCode(data.Code,data.StoreCode);
+            Assert.NotNull(Response);
+        }
+
+        [Fact]
         public async void Should_Success_Create_Data()
         {
             var service = new SalesDocService(GetServiceProvider().Object, _dbContext(GetCurrentMethod()));
