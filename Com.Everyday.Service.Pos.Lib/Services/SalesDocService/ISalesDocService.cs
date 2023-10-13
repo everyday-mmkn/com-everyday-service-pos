@@ -1,5 +1,4 @@
-﻿using Com.Bateeq.Service.Pos.Lib.ViewModels.SalesDoc;
-using Com.Everyday.Service.Pos.Lib.Models.SalesDoc;
+﻿using Com.Everyday.Service.Pos.Lib.Models.SalesDoc;
 using Com.Everyday.Service.Pos.Lib.ViewModels;
 using Com.Everyday.Service.Pos.Lib.ViewModels.SalesDoc;
 using System;
