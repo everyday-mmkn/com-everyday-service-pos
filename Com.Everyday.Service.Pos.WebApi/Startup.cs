@@ -7,7 +7,6 @@ using Com.Everyday.Service.Pos.Lib.Services.SalesDocService;
 using Com.Everyday.Service.Pos.Lib.Interfaces;
 using Com.Everyday.Service.Pos.Lib.Services;
 using Com.Everyday.Service.Pos.Lib.Services.DiscountService;
-using Com.Everyday.Service.Pos.Lib.Services.SalesDocService;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +19,7 @@ using MongoDB.Driver;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Text;
+using Com.Everyday.Service.Pos.Lib;
 
 namespace Com.Danliris.Service.Inventory.WebApi
 {
@@ -88,6 +88,10 @@ namespace Com.Danliris.Service.Inventory.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["DefaultConnection"];
+            string coreConnectionString = Configuration.GetConnectionString("CoreDbConnection") ?? Configuration["CoreDbConnection"];
+
+            APIEndpoint.CoreConnectionString = Configuration.GetConnectionString("CoreDbConnection") ?? Configuration["CoreDbConnection"];
+            APIEndpoint.DefaultConnectionString = Configuration.GetConnectionString("DefaultConnection") ?? Configuration["DefaultConnection"];
 
             services
                 .AddDbContext<PosDbContext>(options => options.UseSqlServer(connectionString))
@@ -97,6 +101,8 @@ namespace Com.Danliris.Service.Inventory.WebApi
                     options.AssumeDefaultVersionWhenUnspecified = true;
                     options.DefaultApiVersion = new ApiVersion(1, 0);
                 });
+            services.AddTransient<IOtherDbConnectionDBContext>(s => new OtherDbConnectionDBContext(coreConnectionString));
+            services.AddTransient<IOtherDbConnectionDBContext>(s => new OtherDbConnectionDBContext(connectionString));
 
             //services.Configure<MongoDbSettings>(options =>
             //    {
